@@ -10,11 +10,11 @@ def move(Matrix, depth):
 
     Choice = movecheck(Matrix, depth)
     Ways  = State_Check(Matrix)
-    matrix_list=[moveU(Matrix),moveR(Matrix),moveL(Matrix),moveD(Matrix)]
+    matrix_list=[moveR(Matrix),moveL(Matrix),moveU(Matrix),moveD(Matrix)]
     for i in range(len(Choice)):
         if Ways[i] == 0:
             Choice[i] = -math.inf
-    Choice[2] *= 0.5   # Want to make the biggest tile on the top-right
+    Choice[1] *= 0.5   # Want to make the biggest tile on the top-right
     child = np.zeros((4,4))
     way = np.argmax(Choice)
     child = AddNew(matrix_list[way])
@@ -30,14 +30,14 @@ def movecheck(Matrix, depth):
         return Rate_With_Human_Decision(Matrix) if AddNew(Matrix) != 'Done' else 0
     else:
         matrix_score_list = [0,0,0,0]        
-        matrix_list=[moveU(Matrix),moveR(Matrix),moveL(Matrix),moveD(Matrix)]
+        matrix_list=[moveR(Matrix),moveL(Matrix),moveU(Matrix),moveD(Matrix)]
         
         for i, elements in enumerate(matrix_list):
             matrix_list[i] = AddNew(matrix_list[i])
             if elements == "Done":
                 matrix_score_list[i] = 0
                 continue
-            matrix_score_list[i] = Rate(elements) + np.mean(movecheck(elements,depth-1))
+            matrix_score_list[i] = Rate(elements) + np.max(movecheck(elements,depth-1))
         
         return matrix_score_list
 
@@ -48,18 +48,31 @@ Give the time you want to play (epoch) and the depth you want to search.
 It will print out every moved broad on your terminal.
 '''
 def play(epoch, depth):
+    # Info
+    print('epoch:',epoch)
+    print('depth:',depth)
+
+    counter = {}
     for i in range(epoch):
+        print(i)
         X = SetBoard()
         step = 0
         while True:
             child = move(X,depth)
-            print(child)
-            if child == 'Done'                                                                                                                                                  :
-                break
-            X = child
 
+            if child == 'Done':
+                break
+            
+            Max_reach = child.max()
+            X = child
+        
+        if str(Max_reach) in counter:
+            counter[str(Max_reach)] += 1
+        else:
+            counter[str(Max_reach)] = 1
+    Plot(counter)
 if __name__ == '__main__':
-    play(3,5)
+    play(10000,1)
 
 
 

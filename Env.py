@@ -407,8 +407,36 @@ def State_Check(Matrix):
     L = moveL(Matrix)
     U = moveU(Matrix)
     D = moveD(Matrix)
-    Ways_can_go.append(0 if (U == Matrix).all() else 1)
     Ways_can_go.append(0 if (R == Matrix).all() else 1)
     Ways_can_go.append(0 if (L == Matrix).all() else 1)
+    Ways_can_go.append(0 if (U == Matrix).all() else 1)
     Ways_can_go.append(0 if (D == Matrix).all() else 1)
     return Ways_can_go
+
+'''
+Plot a graph to see the distribution.
+'''
+def Plot(Counter):
+    print(Counter)
+    Max_reach = [0,0,0,0,0,0,0,0,0,0,0,0]
+    Num = []
+    Num_N = []
+    for i in range(0,12):
+        Tag = 2**(i+3)
+        Num.append(i)
+        Num_N.append(str(Tag))
+        try:
+            Max_reach[i] = Counter[str(Tag)+'.0']
+        except KeyError:
+            pass
+
+    import matplotlib.pyplot as plt
+    plt.bar(Num, Max_reach, tick_label=Num_N)
+    plt.ylabel('Reach(times)')
+    plt.xlabel('Number')
+    plt.show()
+
+
+
+
+
