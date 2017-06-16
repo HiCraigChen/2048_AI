@@ -1,6 +1,6 @@
 import numpy as np
 import random as rn
-from Brian_Keras import DeepQNetwork
+from Brian_NN import DeepQNetwork
 from Env import *
 
 def run():
