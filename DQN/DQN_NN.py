@@ -6,14 +6,17 @@ from Env import *
 def run():
     step = 0
     counter = {}
-    for episode in range(150000):
+    for episode in range(50000):
         # initial observation
         observation = SetBoard() 
         while True:
             Actions = ['R','L','U','D']
+
+            Max_reach = observation.max()
             
             # RL choose action based on observation
-            action,action_value = RL.choose_action(observation)
+            # Normalize the observation
+            action,action_value = RL.choose_action(observation/Max_reach)
 
             if action == 0:
                 observation_ = moveR(observation)
@@ -29,7 +32,7 @@ def run():
 
             if observation_ == 'Done':
                 reward = -Rate(observation)
-                RL.store_transition(observation, action, reward, observation)
+                RL.store_transition(observation/Max_reach, action, reward, observation/Max_reach)
 
 
                 # Print the Game over broad
@@ -44,14 +47,13 @@ def run():
                 break
             
             reward = Rate(observation_)
-            RL.store_transition(observation, action, reward, observation_)
+            RL.store_transition(observation/Max_reach, action, reward, observation_/Max_reach)
             if (step > 200) and (step % 5 == 0):
                 RL.learn()
 
             # swap observation
             observation = observation_
             step += 1
-            Max_reach = observation.max()
         
         if str(Max_reach) in counter:
             counter[str(Max_reach)] += 1
