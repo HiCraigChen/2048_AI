@@ -14,7 +14,6 @@ def move(Matrix, depth):
     for i in range(len(Choice)):
         if Ways[i] == 0:
             Choice[i] = -math.inf
-    Choice[1] *= 0.5   # Want to make the biggest tile on the top-right
     child = np.zeros((4,4))
     way = np.argmax(Choice)
     child = AddNew(matrix_list[way])
@@ -27,7 +26,7 @@ Return a list with length 4 which stores the scores from first 4 different steps
 '''
 def movecheck(Matrix, depth):
     if depth == 0:
-        return Rate_With_Human_Decision(Matrix) if AddNew(Matrix) != 'Done' else 0
+        return Rate(Matrix) if AddNew(Matrix) != 'Done' else 0
     else:
         matrix_score_list = [0,0,0,0]        
         matrix_list=[moveR(Matrix),moveL(Matrix),moveU(Matrix),moveD(Matrix)]
@@ -54,7 +53,6 @@ def play(epoch, depth):
 
     counter = {}
     for i in range(epoch):
-        print(i)
         X = SetBoard()
         step = 0
         while True:
@@ -72,7 +70,9 @@ def play(epoch, depth):
             counter[str(Max_reach)] = 1
     Plot(counter)
 if __name__ == '__main__':
-    play(10000,1)
+    play(100,2)
+
+    
 
 
 

@@ -342,37 +342,29 @@ Rate the Matrix for generating the reward.
 
 Function Rate_With_Human_Decision is based on the strategy of 2048 game.
 Put the largest tile in the corner is more likely to get higher score.
-Thus, I let the weight in the top-right corner higher.
+Thus, I let the weight in the bottom-right corner higher.
 The decision that AI makes will lead larger tiles more likely toward to top-right corner.
-
-Function Rate is based on the number on the tiles.
-It's like the original game scoring method. 
 '''
-def Rate_With_Human_Decision(matrice):
-    r = 0.0025
-    score = 0
-    for i in range(4):
-        for j in range(4):
-            score += matrice[(i,j)]* (r**(3-j))*(4-i)*(4-i)
-    return score
 
-def Rate(matrice):
-    score = 0
-    for i in range(4):
-        for j in range(4):
-            x = matrice[(i,j)]
-            if x > 0:
-                k = math.log2(x)
-                score += (k-1)*2**(2*k)
-            else:
-                pass            
-    return score
+def Rate(Matrix):
+    MultiM = list(range(16))
+    MultiM = np.reshape(np.array(MultiM),(4,4))
+    Q1 = MultiM[0,].tolist()
+    Q2 = MultiM[2,].tolist()
+
+    Q1.reverse()
+    Q2.reverse()
+    MultiM[0,] = Q1
+    MultiM[2,] = Q2
+
+    score = Matrix * MultiM
+    return np.sum(score)
 
 
 
 '''
 Add a new number in the matrix.
-After each move, the game generates a new tile with 50% 2 and 50% 4.
+After each move, the game generates a new tile with 90% 2 and 10% 4.
 If there is no empty space to add a new tile (i.e. game over), return 'Done'.
 '''
 def AddNew(Matrix):
@@ -385,7 +377,7 @@ def AddNew(Matrix):
         q = rn.randrange(len(zeroPos))
         P = tuple(zeroPos[q])
 
-        if rn.random() > 0.5:
+        if rn.random() > 0.1:
             Matrix[P] = 2
         else : 
             Matrix[P] = 4
@@ -418,10 +410,17 @@ Plot a graph to see the distribution.
 '''
 def Plot(Counter):
     print(Counter)
-    Max_reach = [0,0,0,0,0,0,0,0,0,0,0,0]
+    MaxKey= 0
+    for i in list(Counter.keys()):
+        index = i.find('.')
+        if MaxKey < int(i[0:index]):
+            MaxKey = int(i[0:index])
+
+    MaxAxis = math.log2(MaxKey)
+    Max_reach = [0] * int(MaxAxis)
     Num = []
     Num_N = []
-    for i in range(0,12):
+    for i in range(0,int(MaxAxis)):
         Tag = 2**(i+3)
         Num.append(i)
         Num_N.append(str(Tag))
