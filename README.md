@@ -13,7 +13,20 @@ The codes is in the `2048_Search.py`
 In this method, I set the depth from 2 to 5 and ran 100 times in each depth.  
 Here is some result.
 
-In Depth:2,
+# Depth:1
+Average score : 
+
+| Max Reach | Count | Accumulate %  | Reverse Accumulate % |
+|-------|---------|----------|----------|
+| 32   |  1  |   1% |  100% |
+| 64   |  6 |  7% |  99%|
+| 128  |  39 |  46% |  93%|
+| 256  |  47 |  93% |  54%|
+| 512  |  7 | 100% |  7%|
+| 1024  |  0  | 100% |  0%|
+
+
+# Depth:2
 
 | Max Reach | Count | Accumulate %  | Reverse Accumulate % |
 |-------|---------|----------|----------|
@@ -24,7 +37,7 @@ In Depth:2,
 | 4096  |  1  | 100% |  1%|
 | 8192  |  0  | 100% |  0%|
 
-In Depth:3,
+# Depth:3
 
 | Max Reach | Count | Accumulate %  |  Reverse Accumulate % |
 |-------|---------|----------|----------|
@@ -35,7 +48,7 @@ In Depth:3,
 | 4096  |  6  | 100% | 6%|
 | 8192  |  0  | 100% | 0%|
 
-In Depth:4,
+# Depth:4
 
 | Max Reach | Count | Accumulate %  |  Reverse Accumulate % |
 |-------|---------|----------|----------|
@@ -46,7 +59,7 @@ In Depth:4,
 | 4096  |  20  | 100% | 20%|
 | 8192  |  0  | 100% |  0%|
 
-In Depth:5,
+# Depth:5
 
 | Max Reach | Count | Accumulate %  |  Reverse Accumulate % |
 |-------|---------|----------|----------|
