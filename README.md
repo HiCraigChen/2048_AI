@@ -10,13 +10,15 @@ The codes is in the `Env.py`
 My first attempt is to use search method to win the game.  I tried to go through all the possible moves in the given search depth, and then compared the scores in the result to choose the best decision in the specific situation.    
 The codes is in the `2048_Search.py`
 
-In this method, I set the depth from 2 to 5 and ran 100 times in each depth.  
+In this method, I set the depth from 1 to 5 and ran 100 times in each depth.  
 Here is some result.
+Ps: Average win rate represents the chance to reach 2048.
 
-# Depth:1
-Average score : 
+## Depth:1
+Average max score : 210.24
+Average win rate :0%
 
-| Max Reach | Count | Accumulate %  | Reverse Accumulate % |
+| Max Reach | Counts | Accumulate %  | Reverse Accumulate % |
 |-------|---------|----------|----------|
 | 32   |  1  |   1% |  100% |
 | 64   |  6 |  7% |  99%|
@@ -26,9 +28,11 @@ Average score :
 | 1024  |  0  | 100% |  0%|
 
 
-# Depth:2
+## Depth:2
+Average max score : 1223.68
+Average win rate :30%
 
-| Max Reach | Count | Accumulate %  | Reverse Accumulate % |
+| Max Reach | Counts | Accumulate %  | Reverse Accumulate % |
 |-------|---------|----------|----------|
 | 256   |  4  |   4% |  100% |
 | 512   |  19 |  23% |  96%|
@@ -37,9 +41,11 @@ Average score :
 | 4096  |  1  | 100% |  1%|
 | 8192  |  0  | 100% |  0%|
 
-# Depth:3
+## Depth:3
+Average max score : 1646.08
+Average win rate :54%
 
-| Max Reach | Count | Accumulate %  |  Reverse Accumulate % |
+| Max Reach | Counts | Accumulate %  |  Reverse Accumulate % |
 |-------|---------|----------|----------|
 | 256   |  1  |   1% | 100%|
 | 512   |  9 |  10% |  99%|
@@ -48,9 +54,11 @@ Average score :
 | 4096  |  6  | 100% | 6%|
 | 8192  |  0  | 100% | 0%|
 
-# Depth:4
+## Depth:4
+Average max score : 2216.96
+Average win rate :78%
 
-| Max Reach | Count | Accumulate %  |  Reverse Accumulate % |
+| Max Reach | Counts | Accumulate %  |  Reverse Accumulate % |
 |-------|---------|----------|----------|
 | 256   |  0  |   0% | 100%|
 | 512   |  3|  3% |   100%|
@@ -59,9 +67,11 @@ Average score :
 | 4096  |  20  | 100% | 20%|
 | 8192  |  0  | 100% |  0%|
 
-# Depth:5
+## Depth:5
+Average max score : 2467.84
+Average win rate :78%
 
-| Max Reach | Count | Accumulate %  |  Reverse Accumulate % |
+| Max Reach | Counts | Accumulate %  |  Reverse Accumulate % |
 |-------|---------|----------|----------|
 | 256   |  0  |   0% | 100%|
 | 512   |  2 |  2% |  100%|
@@ -70,6 +80,9 @@ Average score :
 | 4096  |  29  | 99% | 30%|
 | 8192  |  1  | 100% | 1%|
 
+## Depth 6 or above:
+My computer Macbook pro 15" 2012 (mid) can't handle the massive computation amount. 
+For those who are interested in this topic can try to set the number of depth larger to see what is happening.
 
 
 # Deep Q Network method (DQN)
