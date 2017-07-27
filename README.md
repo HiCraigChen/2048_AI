@@ -85,6 +85,17 @@ My computer Macbook pro 15" 2012 (mid) can't handle the massive computation amou
 For those who are interested in this topic can try to set the number of depth larger to see what is happening.
 
 
+## Modified Depth 6:
+I tried a different approach to this problem. In the begining stage of the game, I used small depth to search to speed up the process. The depth starts from 2 and gets one more larger after every 400 moves till reach the set depth.   
+I ran 200 epochs and only 42.5% of the total games reach depth 6. However, the result of depth 6 is pretty impressive.
+
+| Max Reach | Counts | Accumulate %  |  Reverse Accumulate % |
+|-------|---------|----------|----------|
+| 1024  |  1 |  1.18% | 100%|
+| 2048  |  50 |  60% | 98.8%|
+| 4096  |  34  | 100% | 40%|
+
+
 ## How many moves to win the game?
 In depth 5, the score and the corresponding numbers of move.
 
