@@ -15,7 +15,7 @@ Here is some result.
 Ps: Average win rate represents the chance to reach 2048.
 
 ## Depth:1
-Average max score : 210.24
+Average max score : 210.24    
 Average win rate :0%
 
 | Max Reach | Counts | Accumulate %  | Reverse Accumulate % |
@@ -29,7 +29,7 @@ Average win rate :0%
 
 
 ## Depth:2
-Average max score : 1223.68
+Average max score : 1223.68   
 Average win rate :30%
 
 | Max Reach | Counts | Accumulate %  | Reverse Accumulate % |
@@ -42,7 +42,7 @@ Average win rate :30%
 | 8192  |  0  | 100% |  0%|
 
 ## Depth:3
-Average max score : 1646.08
+Average max score : 1646.08   
 Average win rate :54%
 
 | Max Reach | Counts | Accumulate %  |  Reverse Accumulate % |
@@ -55,7 +55,7 @@ Average win rate :54%
 | 8192  |  0  | 100% | 0%|
 
 ## Depth:4
-Average max score : 2216.96
+Average max score : 2216.96   
 Average win rate :78%
 
 | Max Reach | Counts | Accumulate %  |  Reverse Accumulate % |
@@ -68,7 +68,7 @@ Average win rate :78%
 | 8192  |  0  | 100% |  0%|
 
 ## Depth:5
-Average max score : 2467.84
+Average max score : 2467.84   
 Average win rate :78%
 
 | Max Reach | Counts | Accumulate %  |  Reverse Accumulate % |
@@ -83,6 +83,19 @@ Average win rate :78%
 ## Depth 6 or above:
 My computer Macbook pro 15" 2012 (mid) can't handle the massive computation amount. 
 For those who are interested in this topic can try to set the number of depth larger to see what is happening.
+
+
+## How many moves to win the game?
+In depth 5, the score and the corresponding numbers of move.
+
+| Max Reach | Counts |  Sum of Moves  | Average numbers of move Per game |
+|-------|---------|----------|----------|
+| 512   |  2 |  1172 |586 |
+| 1024  |  25 |  25321 |1012.84|
+| 2048  |  56 |  93276|1665.64|
+| 4096  |  17  | 48163|2833.12|
+
+
 
 
 # Deep Q Network method (DQN)
