@@ -7,11 +7,11 @@ We have to define how to move tiles in a game and how to generate new tile after
 The codes is in the `Env.py`
 
 # Search method 
-My first attempt is to use search method to win the game.  I tried to go through all the possible moves in the given search depth, and then compared the scores in the result to choose the best decision in the specific situation.    
+My first attempt is to use Monte Carlo tree search method to win the game.  I tried to go through all the possible moves in the given search depth, and then compared the scores in the result to choose the best decision in the specific situation.    
 The codes is in the `2048_Search.py`
 
 In this method, I set the depth from 1 to 5 and ran 100 times in each depth.  
-Here is some result.
+Here is some result.    
 Ps: Average win rate represents the chance to reach 2048.
 
 ## Depth:1
@@ -98,6 +98,7 @@ I ran 200 epochs and only 42.5% of the total games reach depth 6. However, the r
 
 ## How many moves to win the game?
 In depth 5, the score and the corresponding numbers of move.
+We can see that in average we have to move above 1600 steps to reach 2048.
 
 | Max Reach | Counts |  Sum of Moves  | Average numbers of move Per game |
 |-------|---------|----------|----------|
