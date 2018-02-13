@@ -10,11 +10,11 @@ class DeepQNetwork:
             self,
             n_actions,
             n_features,
-            learning_rate=0.001,
-            reward_decay=0.7,
-            e_greedy=0.99,
+            learning_rate=0.00001,
+            reward_decay=0.8,
+            e_greedy=1,
             replace_target_iter=100,
-            memory_size=100000,
+            memory_size=1000,
             batch_size=64,
             e_greedy_increment=0.01,
             output_graph=False
@@ -28,7 +28,7 @@ class DeepQNetwork:
         self.memory_size = memory_size
         self.batch_size = batch_size
         self.epsilon_increment = e_greedy_increment
-        self.epsilon = 0.3 if e_greedy_increment is not None else self.epsilon_max
+        self.epsilon = 0.8 if e_greedy_increment is not None else self.epsilon_max
 
         # total learning step
         self.learn_step_counter = 0
@@ -43,9 +43,11 @@ class DeepQNetwork:
         self.model = Sequential()
         self.model.add(Dense(input_dim=self.n_features,output_dim=512))
         self.model.add(Activation('relu'))
-        self.model.add(Dense(4096))
-        self.model.add(Activation('relu'))
-        self.model.add(Dense(256))
+        # self.model.add(Dropout(0.5))
+        # self.model.add(Dense(512))
+        # self.model.add(Activation('relu'))
+        self.model.add(Dropout(0.5))
+        self.model.add(Dense(128))
         self.model.add(Activation('relu'))
         self.model.add(Dense(4))
         self.model.add(Activation('softmax'))
@@ -81,7 +83,7 @@ class DeepQNetwork:
             actions_value = list(actions_value[0])
             for i in range(len(ways)):
                 if ways[i] == 0:
-                    actions_value[i] = -100
+                    actions_value[i] = -10
 
 
             action = np.argmax(actions_value)
@@ -90,6 +92,46 @@ class DeepQNetwork:
             action = np.random.randint(0, self.n_actions)
         return action, actions_value
 
+
+    def choose_action_remove_state_check(self, observation):
+        
+        observation = np.reshape(observation,(16))
+        observation = observation[np.newaxis, :]
+        if np.random.uniform() < self.epsilon:
+            # forward feed the observation and get q value for every actions
+            actions_value = self.model.predict(observation)
+            actions_value = actions_value.tolist()
+
+            action = np.argmax(actions_value)
+        else:
+            actions_value = []
+            action = np.random.randint(0, self.n_actions)
+        return action, actions_value
+
+
+    def choose_action_mix(self, observation):
+        ob = observation
+        ways = State_Check(observation)
+        
+        observation = np.reshape(observation,(16))
+        observation = observation[np.newaxis, :]
+        if np.random.uniform() < self.epsilon:
+            # forward feed the observation and get q value for every actions
+            actions_value = self.model.predict(observation)
+            actions_value = actions_value.tolist()
+
+        
+            actions_value = list(actions_value[0])
+            for i in range(len(ways)):
+                if ways[i] == 0:
+                    actions_value[i] = -10
+                    self.store_transition(ob,i,-1,ob)
+
+            action = np.argmax(actions_value)
+        else:
+            actions_value = []
+            action = np.random.randint(0, self.n_actions)
+        return action, actions_value
 
 
 
@@ -100,9 +142,6 @@ class DeepQNetwork:
             sample_index = np.random.choice(self.memory_counter, size=self.batch_size)
         batch_memory = self.memory[sample_index, :]
 
-        batch_memory_this = batch_memory[:,:16]
-        batch_memory_after = batch_memory[:,-16:]
-
         # check to ,replace target parameters
         if self.learn_step_counter % self.replace_target_iter == 0:
             batch_memory_this = batch_memory[:,:16]
@@ -112,10 +151,18 @@ class DeepQNetwork:
             next_q = self.model.predict(batch_memory_after)
             reward = batch_memory[:, self.n_features + 1]
 
+            # Give index 
             batch_index = np.arange(self.batch_size, dtype=np.int32)
+            
+            # Recieve what action actually does.
             eval_act_index = batch_memory[:, self.n_features].astype(int)
-            this_q[batch_index,eval_act_index] = reward + self.gamma * np.max(next_q, axis = 1)
+
+            
+            this_q[batch_index,eval_act_index] = this_q[batch_index,eval_act_index] + self.lr * (reward + self.gamma*np.max(next_q, axis = 1) - this_q[batch_index,eval_act_index])
+            #this_q[batch_index,eval_act_index] = self.lr * (reward + self.gamma*np.max(next_q, axis = 1) - this_q)
+            
             his = self.model.fit(batch_memory_this,this_q,nb_epoch=1,batch_size=self.batch_size, verbose = 0)
+            
             self.acc.append(his.history['acc'])
 
 
@@ -135,6 +182,14 @@ class DeepQNetwork:
 
     def Load(self):
         self.model = load_model('ModelwithNN.h5')
+
+
+
+# Less neuron
+# more epoch
+# remove fail learn
+# Dropout
+# remove moving restriction  the way_can_go
 
 
 

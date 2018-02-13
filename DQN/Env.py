@@ -363,10 +363,14 @@ def Rate(matrice):
             x = matrice[(i,j)]
             if x > 0:
                 k = math.log2(x)
-                score += (k-1)*2**(2*k)
+                #score += (k-1)*2**(2*k)
+                score += x*(k-1)
             else:
                 pass            
     return score
+
+def normalRate(matrice):
+    return np.sum(matrice)    
 
 
 
@@ -385,7 +389,7 @@ def AddNew(Matrix):
         q = rn.randrange(len(zeroPos))
         P = tuple(zeroPos[q])
 
-        if rn.random() > 0.5:
+        if rn.random() > 0.1:
             Matrix[P] = 2
         else : 
             Matrix[P] = 4
