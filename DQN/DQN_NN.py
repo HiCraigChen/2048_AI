@@ -1,36 +1,20 @@
 import numpy as np
 import random as rn
-#from Brian_NN import DeepQNetwork
+from Brian_NN import DeepQNetwork
 from Env import *
-from DQN_CNN import DeepQNetwork
 
 def run():
     step = 0
-    #reward_step = 2
     counter = {}
     for episode in range(300):
         # initial observation
         observation = SetBoard() 
         while True:
-            #Actions = ['R','L','U','D']
             Max_reach = observation.max()
             ways = State_Check(observation)
             # RL choose action based on observation
             # Normalize the observation
-            #action,action_value = RL.choose_action(observation)
             action,action_value = RL.choose_action(observation/Max_reach)
-            #action,action_value = RL.choose_action_mix(observation/Max_reach)
-            # action,action_value = RL.choose_action_remove_state_check(observation/Max_reach)
-            # loop = 0
-            # while ways[action] == 0 and ways != [0,0,0,0]:
-            #     reward = -(loop+1)*Rate(observation)
-            #     RL.store_transition(observation/Max_reach, action, reward, observation/Max_reach)
-            #     #print('loooooop')
-            #     loop = loop+1
-            #     if loop > 5 and step>64:
-            #         RL.learn()
-            #         #print('learned')
-            #     action,action_value = RL.choose_action_remove_state_check(observation/Max_reach)
 
             if action == 0:
                 observation_ = moveR(observation)
@@ -45,8 +29,6 @@ def run():
             observation_ = AddNew(observation_)
             if observation_ == 'Done':
                 reward = -Rate(observation)
-                #reward = normalRate(observation/Max_reach)
-                #RL.store_transition(observation, action, reward, observation)
                 RL.store_transition(observation/Max_reach, action, reward, observation/Max_reach)
 
 
@@ -61,12 +43,9 @@ def run():
                     print('----------\n',episode,'\n',observation,'\n----------')
                     print(-reward)
                 break
-            # if Max_reach >= 2**reward_step:
-            #     reward = 1
+
             
             reward = Rate(observation_)
-            #reward = normalRate(observation_/Max_reach)            
-            #RL.store_transition(observation, action, reward, observation_)
             RL.store_transition(observation/Max_reach, action, reward, observation_/Max_reach)
             if (step > 200) and (step % 5 == 0):
                 RL.learn()

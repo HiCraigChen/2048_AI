@@ -43,9 +43,6 @@ class DeepQNetwork:
         self.model = Sequential()
         self.model.add(Dense(input_dim=self.n_features,output_dim=512))
         self.model.add(Activation('relu'))
-        # self.model.add(Dropout(0.5))
-        # self.model.add(Dense(512))
-        # self.model.add(Activation('relu'))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(128))
         self.model.add(Activation('relu'))
@@ -53,7 +50,6 @@ class DeepQNetwork:
         self.model.add(Activation('softmax'))
         self.model.summary()
         self.model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-        #self.model.compile(loss='mean_squared_error',optimizer='adam',metrics=['accuracy'])
 
 
     def store_transition(self, s, a, r, s_):
@@ -159,7 +155,6 @@ class DeepQNetwork:
 
             
             this_q[batch_index,eval_act_index] = this_q[batch_index,eval_act_index] + self.lr * (reward + self.gamma*np.max(next_q, axis = 1) - this_q[batch_index,eval_act_index])
-            #this_q[batch_index,eval_act_index] = self.lr * (reward + self.gamma*np.max(next_q, axis = 1) - this_q)
             
             his = self.model.fit(batch_memory_this,this_q,nb_epoch=1,batch_size=self.batch_size, verbose = 0)
             
@@ -183,13 +178,6 @@ class DeepQNetwork:
     def Load(self):
         self.model = load_model('ModelwithNN.h5')
 
-
-
-# Less neuron
-# more epoch
-# remove fail learn
-# Dropout
-# remove moving restriction  the way_can_go
 
 
 
